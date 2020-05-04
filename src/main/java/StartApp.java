@@ -122,4 +122,6 @@ public class StartApp {
             staraPlansza=plansza;
         }
     }
+
+    // logika ->
 }
