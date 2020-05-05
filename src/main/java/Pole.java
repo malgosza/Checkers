@@ -2,18 +2,18 @@ public class Pole {
 
     int number;
 //    enum
-    String color;
+    KolorPola color;
 
     //enum pusty bialy czarny
-    String fieldContent;
+    ZawartoscPola fieldContent;
 
-    public Pole(int number, String color){
+    public Pole(int number, KolorPola color){
         this.number=number;
         this.color=color;
-        this.fieldContent="pusty";
+        this.fieldContent=ZawartoscPola.pusty;
     }
 
-    public void ustawPionek(String fieldContent){
+    public void ustawPionek(ZawartoscPola fieldContent){
         this.fieldContent=fieldContent;
     }
 }
