@@ -11,6 +11,7 @@ public class StartApp {
                 System.out.println();
             }
             System.out.print(plansza.getIndexPlansza(i) + " ");
+            plansza.setZawartoscPola(i,ZawartoscPola.biale);
         }
     }
     // logika ->
