@@ -3,6 +3,8 @@ public class StartApp {
         Plansza plansza=new Plansza();
         plansza.ustawianieZawartosciPlanszy();
         displayPlansza(plansza);
+        RuchGracza ruch=new RuchGracza();
+        ruch.ruszanieSiePoPolachGdzieMozna(63,plansza);
 
 //        Scanner scan = new Scanner(System.in);
 //        System.out.println("Numer pola którym chcesz sie poruszyc?");
@@ -20,11 +22,7 @@ public class StartApp {
             }
             System.out.print(plansza.getColor(i) + " ");
         }
-    }
-
-
-    public static void ruchGracza(){
-
+        System.out.println();
     }
     // logika ->
     // numer pola ktory chce ruszyc
