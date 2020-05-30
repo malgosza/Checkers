@@ -40,4 +40,14 @@ public class Plansza {
         Pole numer = plansza.get(i);
         numer.fieldContent = zawartoscPola;
     }
+
+    public void ustawianieZawartosciPlanszy(){
+        for (int i = 0; i < 24; i++) {
+            setZawartoscPola(i,ZawartoscPola.iks);
+        }
+
+        for (int i = 40; i < 64; i++) {
+            setZawartoscPola(i,ZawartoscPola.kolko);
+        }
+    }
 }

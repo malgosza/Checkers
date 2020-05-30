@@ -1,5 +1,5 @@
 public enum ZawartoscPola {
     pusty,
-    biale,
-    czarne;
+    iks,
+    kolko;
 }
