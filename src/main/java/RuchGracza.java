@@ -3,10 +3,13 @@ import java.util.List;
 
 public class RuchGracza {
 
-    public RuchGracza() {
+    Plansza plansza;
+
+    public RuchGracza(Plansza plansza) {
+        this.plansza = plansza;
     }
 
-    public List<Integer> ruszanieSiePoPolachGdzieMozna(int indeksPolaZktoregoRuszam, Plansza plansza) {
+    public List<Integer> dajDozwolonePola(int indeksPolaZktoregoRuszam) {
 
         List<Integer> list = new ArrayList<>();
         List<Integer> out = new ArrayList<>();
@@ -46,7 +49,16 @@ public class RuchGracza {
         return out;
     }
 
-    public void przesuniecieFiguryNaWybranePole(int indeksPolaNaKtoreRuszam, Plansza plansza, ZawartoscPola zawartoscPola) {
-        plansza.setZawartoscPola(indeksPolaNaKtoreRuszam, zawartoscPola);
+    public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
+        if (plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny)&&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pusty)&&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.iks)&&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.kolko)){
+            return true;
+        }
+        return false;
     }
+
+    //bicia
+    //obiekt Gracz
 }

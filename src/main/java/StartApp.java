@@ -6,27 +6,26 @@ public class StartApp {
         Plansza plansza=new Plansza();
         plansza.ustawianieZawartosciPlanszy();
         displayPlansza(plansza);
-        RuchGracza ruch=new RuchGracza();
+        RuchGracza ruch=new RuchGracza(plansza);
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Numer pola którym chcesz sie poruszyc?");
-        String numerPolaKtorymRuszamPionek = scan.nextLine();
-        while (plansza.getColor(Integer.parseInt(numerPolaKtorymRuszamPionek)).equals(KolorPola.bialy)){
+        int start = Integer.parseInt(scan.nextLine());
+
+        while (plansza.getColor(start).equals(KolorPola.bialy)){
             System.out.println("Musisz poruszac sie TYLKO po czarnych! \nNumer pola którym chcesz sie poruszyc?");
-            numerPolaKtorymRuszamPionek = scan.nextLine();
+            start = Integer.parseInt(scan.nextLine());
         }
-        List<Integer> dostepnePola=ruch.ruszanieSiePoPolachGdzieMozna(Integer.parseInt(numerPolaKtorymRuszamPionek),plansza);
+        List<Integer> dostepnePola=ruch.dajDozwolonePola(start);
 
 
         System.out.println("Numer pola na które chcesz sie poruszyc?");
-        Scanner scan2 = new Scanner(System.in);
-        String numerPolaNaKtorePrzesuwamFigure = scan2.nextLine();
-        while (!dostepnePola.contains(Integer.parseInt(numerPolaNaKtorePrzesuwamFigure))){
+        int numerPolaNaKtorePrzesuwamFigure = Integer.parseInt(scan.nextLine());
+        while (!dostepnePola.contains(numerPolaNaKtorePrzesuwamFigure)){
             System.out.println("Niezgodnie z zasadami! \nNumer pola na które chcesz sie poruszyc?");
-            scan2 = new Scanner(System.in);
-            numerPolaNaKtorePrzesuwamFigure = scan2.nextLine();
+            numerPolaNaKtorePrzesuwamFigure = Integer.parseInt(scan.nextLine());
         }
-        ruch.przesuniecieFiguryNaWybranePole(Integer.parseInt(numerPolaNaKtorePrzesuwamFigure),plansza,ZawartoscPola.iks);
+        plansza.setZawartoscPola(numerPolaNaKtorePrzesuwamFigure,ZawartoscPola.iks);
     }
 
     public static void displayPlansza(Plansza plansza) {
