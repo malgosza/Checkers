@@ -50,15 +50,41 @@ public class RuchGracza {
     }
 
     public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
-        if (plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny)&&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pusty)&&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.iks)&&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.kolko)){
+        if (plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
+                (plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.iks) ||
+                        plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.kolko)) &&
+                zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).size() > 0) {
             return true;
         }
         return false;
     }
 
+    //zakladam, ze gram kolkiem
+    public List<Integer> biciePionkow(int indeksPolaZktoregoRuszam) {
+        List<Integer> out = new ArrayList<>();
+
+        if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(ZawartoscPola.iks) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pusty) &&
+                plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
+            out.add(indeksPolaZktoregoRuszam + 18);
+        } else if (plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(ZawartoscPola.iks) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pusty) &&
+                plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny)) {
+            out.add(indeksPolaZktoregoRuszam + 14);
+        }
+
+        return out;
+    }
+
+    public List<Integer> zwrocDozwolonePolaDoBiciaiRuchu(int indeksPolaZktoregoRuszam) {
+        List<Integer> out = new ArrayList<>();
+
+        out.addAll(dajDozwolonePola(indeksPolaZktoregoRuszam));
+        out.addAll(biciePionkow(indeksPolaZktoregoRuszam));
+        return out;
+    }
     //bicia
     //obiekt Gracz
 }
