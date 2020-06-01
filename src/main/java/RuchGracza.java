@@ -60,7 +60,7 @@ public class RuchGracza {
     }
 
     //zakladam, ze gram kolkiem
-    public List<Integer> biciePionkow(int indeksPolaZktoregoRuszam) {
+    public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
         List<Integer> out = new ArrayList<>();
 
         if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
@@ -82,8 +82,30 @@ public class RuchGracza {
         List<Integer> out = new ArrayList<>();
 
         out.addAll(dajDozwolonePola(indeksPolaZktoregoRuszam));
-        out.addAll(biciePionkow(indeksPolaZktoregoRuszam));
+        out.addAll(dajPolaDoBiciaPionkow(indeksPolaZktoregoRuszam));
         return out;
+    }
+
+    public void ruchGracza(int indeksPolaZktoregoRuszam, int indeksPolaNaKtoreRuszam ){
+        if (poprawnePoleDoRuchu(indeksPolaZktoregoRuszam)==true){
+            plansza.setZawartoscPola(indeksPolaZktoregoRuszam,ZawartoscPola.pusty);
+            if (dajDozwolonePola(indeksPolaZktoregoRuszam).size()>0){
+                plansza.setZawartoscPola(indeksPolaNaKtoreRuszam, ZawartoscPola.kolko);
+            }
+            //bicie
+            else {
+                plansza.setZawartoscPola(indeksPolaNaKtoreRuszam,ZawartoscPola.kolko);
+                if (indeksPolaZktoregoRuszam+14==indeksPolaNaKtoreRuszam){
+                    plansza.setZawartoscPola(indeksPolaZktoregoRuszam+7,ZawartoscPola.pusty);
+                }
+                else {
+                    plansza.setZawartoscPola(indeksPolaZktoregoRuszam+9,ZawartoscPola.pusty);
+                }
+            }
+        }
+        else {
+            System.out.println("Niemozliwy ruch");
+        }
     }
     //bicia
     //obiekt Gracz
