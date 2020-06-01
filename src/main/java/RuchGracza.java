@@ -3,17 +3,20 @@ import java.util.List;
 
 public class RuchGracza {
 
-    Plansza plansza;
+    private Plansza plansza;
+    private ZawartoscPola typGracza;
 
-    public RuchGracza(Plansza plansza) {
+    public RuchGracza(Plansza plansza, ZawartoscPola typGracza) {
         this.plansza = plansza;
+        this.typGracza = typGracza;
+    }
+
+    private ZawartoscPola dajPrzeciwnika() {
+        return typGracza == ZawartoscPola.iks ? ZawartoscPola.kolko : ZawartoscPola.iks;
     }
 
     public List<Integer> dajDozwolonePola(int indeksPolaZktoregoRuszam) {
-
         List<Integer> list = new ArrayList<>();
-        List<Integer> out = new ArrayList<>();
-
         list.add(indeksPolaZktoregoRuszam - 9);
         list.add(indeksPolaZktoregoRuszam - 7);
         list.add(indeksPolaZktoregoRuszam + 7);
@@ -22,54 +25,53 @@ public class RuchGracza {
         List<Integer> doUsuniecia = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) < 0 || list.get(i) > 63) {
-                doUsuniecia.add(list.get(i));
-            } else if (plansza.getColor(list.get(i)).equals(KolorPola.bialy)) {
+            if (czyPozaGranicami(list, i) || czyBialy(list, i) || czyZajety(list, i)) {
                 doUsuniecia.add(list.get(i));
             }
         }
 
-        for (int i = 0; i < doUsuniecia.size(); i++) {
-            list.remove(doUsuniecia.get(i));
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            if (plansza.getZawartoscPola(list.get(i)).equals(ZawartoscPola.pusty) ||
-                    plansza.getColor(list.get(i)).equals(KolorPola.czarny)) {
-                out.add(list.get(i));
-            }
+        for (Integer indeksyDoUsuniecia : doUsuniecia) {
+            list.remove(indeksyDoUsuniecia);
         }
 
         System.out.println("Pola po ktorych mozesz sie poruszac: ");
-        for (int i = 0; i < out.size(); i++) {
-            System.out.print(out.get(i) + " ");
+        for (Integer indeksyDoRuchu : list) {
+            System.out.print(indeksyDoRuchu + " ");
         }
         System.out.println();
 
-        return out;
+        return list;
+    }
+
+    private boolean czyZajety(List<Integer> list, int i) {
+        return !plansza.getZawartoscPola(list.get(i)).equals(ZawartoscPola.pusty);
+    }
+
+    private boolean czyBialy(List<Integer> list, int i) {
+        return plansza.getColor(list.get(i)).equals(KolorPola.bialy);
+    }
+
+    private boolean czyPozaGranicami(List<Integer> list, int i) {
+        return list.get(i) < 0 || list.get(i) > 63;
     }
 
     public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
-        if (plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
-                (plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.iks) ||
-                        plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.kolko)) &&
-                zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).size() > 0) {
-            return true;
-        }
-        return false;
+        return plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
+                !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pusty) &&
+                !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty();
     }
 
-    //zakladam, ze gram kolkiem
+    //sprawdzic krawedzie i granice planszy
     public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
         List<Integer> out = new ArrayList<>();
-
+        ZawartoscPola przeciwnik = dajPrzeciwnika();
         if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(ZawartoscPola.iks) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pusty) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 18);
         } else if (plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(ZawartoscPola.iks) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pusty) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 14);
@@ -78,35 +80,18 @@ public class RuchGracza {
         return out;
     }
 
-    public List<Integer> zwrocDozwolonePolaDoBiciaiRuchu(int indeksPolaZktoregoRuszam) {
-        List<Integer> out = new ArrayList<>();
+    public List<Ruch> zwrocDozwolonePolaDoBiciaiRuchu(int indeksPolaZktoregoRuszam) {
+        List<Ruch> out = new ArrayList<>();
 
-        out.addAll(dajDozwolonePola(indeksPolaZktoregoRuszam));
-        out.addAll(dajPolaDoBiciaPionkow(indeksPolaZktoregoRuszam));
+        List<Integer> ruchy = dajDozwolonePola(indeksPolaZktoregoRuszam);
+        List<Integer> bicia = dajPolaDoBiciaPionkow(indeksPolaZktoregoRuszam);
+        for (Integer r : ruchy) {
+            out.add(new Ruch(indeksPolaZktoregoRuszam, r, Ruch.TypRuchu.ruch));
+        }
+        for (Integer b : bicia) {
+            out.add(new Ruch(indeksPolaZktoregoRuszam, b, Ruch.TypRuchu.bicie));
+        }
+
         return out;
     }
-
-    public void ruchGracza(int indeksPolaZktoregoRuszam, int indeksPolaNaKtoreRuszam ){
-        if (poprawnePoleDoRuchu(indeksPolaZktoregoRuszam)==true){
-            plansza.setZawartoscPola(indeksPolaZktoregoRuszam,ZawartoscPola.pusty);
-            if (dajDozwolonePola(indeksPolaZktoregoRuszam).size()>0){
-                plansza.setZawartoscPola(indeksPolaNaKtoreRuszam, ZawartoscPola.kolko);
-            }
-            //bicie
-            else {
-                plansza.setZawartoscPola(indeksPolaNaKtoreRuszam,ZawartoscPola.kolko);
-                if (indeksPolaZktoregoRuszam+14==indeksPolaNaKtoreRuszam){
-                    plansza.setZawartoscPola(indeksPolaZktoregoRuszam+7,ZawartoscPola.pusty);
-                }
-                else {
-                    plansza.setZawartoscPola(indeksPolaZktoregoRuszam+9,ZawartoscPola.pusty);
-                }
-            }
-        }
-        else {
-            System.out.println("Niemozliwy ruch");
-        }
-    }
-    //bicia
-    //obiekt Gracz
 }

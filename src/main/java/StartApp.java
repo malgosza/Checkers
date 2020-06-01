@@ -1,12 +1,14 @@
 import java.util.List;
-import java.util.Scanner;
 
 public class StartApp {
     public static void main(String[] args) {
         Plansza plansza=new Plansza();
         plansza.ustawianieZawartosciPlanszy();
         displayPlansza(plansza);
-        RuchGracza ruch=new RuchGracza(plansza);
+        ruch(plansza);
+
+        /*
+        RuchGracza ruch=new RuchGracza(plansza,ZawartoscPola.iks);
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Numer pola którym chcesz sie poruszyc?");
@@ -26,6 +28,7 @@ public class StartApp {
             numerPolaNaKtorePrzesuwamFigure = Integer.parseInt(scan.nextLine());
         }
         plansza.setZawartoscPola(numerPolaNaKtorePrzesuwamFigure,ZawartoscPola.iks);
+    */
     }
 
     public static void displayPlansza(Plansza plansza) {
@@ -36,6 +39,22 @@ public class StartApp {
             System.out.print(plansza.getColor(i) + "("+plansza.getIndexPlansza(i)+") ");
         }
         System.out.println();
+    }
+
+    public static void ruch(Plansza plansza){
+        RuchGracza ruchGracza=new RuchGracza(plansza,ZawartoscPola.iks);
+        int start = 11;
+        Boolean wynik=ruchGracza.poprawnePoleDoRuchu(start);
+
+        //pytac az poda wlasciwe
+        List<Ruch> ruchy = ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu(start);
+        //podaje numer indeksu na ktory sie przesuwam i az poda tylko z tych dostepnych
+        int stop=18;
+
+        //Ktory ruch wybral i w zaleznosci od tego nalezy ustawic
+        plansza.setZawartoscPola(start,ZawartoscPola.pusty);
+        plansza.setZawartoscPola(stop,ZawartoscPola.kolko);
+
     }
 
 }
