@@ -5,18 +5,22 @@ public class RuchGracza {
 
     private Plansza plansza;
     private ZawartoscPola typGracza;
+    private int indeksPolaZktoregoRuszam;
 
-    public RuchGracza(Plansza plansza, ZawartoscPola typGracza) {
+    public RuchGracza(Plansza plansza, ZawartoscPola typGracza, int indeksPolaZktoregoRuszam) {
         this.plansza = plansza;
         this.typGracza = typGracza;
+        this.indeksPolaZktoregoRuszam = indeksPolaZktoregoRuszam;
     }
 
     private ZawartoscPola dajPrzeciwnika() {
         return typGracza == ZawartoscPola.iks ? ZawartoscPola.kolko : ZawartoscPola.iks;
     }
 
-    public List<Integer> dajDozwolonePola(int indeksPolaZktoregoRuszam) {
+    public List<Integer> dajDozwolonePola() {
+
         List<Integer> list = new ArrayList<>();
+
         list.add(indeksPolaZktoregoRuszam - 9);
         list.add(indeksPolaZktoregoRuszam - 7);
         list.add(indeksPolaZktoregoRuszam + 7);
@@ -55,36 +59,41 @@ public class RuchGracza {
         return list.get(i) < 0 || list.get(i) > 63;
     }
 
-    public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
+    public boolean poprawnePoleDoRuchu() {
         return plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
                 !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pusty) &&
-                !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty();
+                !zwrocDozwolonePolaDoBiciaiRuchu().isEmpty();
     }
 
-    //sprawdzic krawedzie i granice planszy
-    public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
+    public List<Integer> dajPolaDoBiciaPionkow() {
         List<Integer> out = new ArrayList<>();
         ZawartoscPola przeciwnik = dajPrzeciwnika();
         if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pusty) &&
-                plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
+                plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny) &&
+                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) <= 63 &&
+                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) >= 0) {
             out.add(indeksPolaZktoregoRuszam + 18);
         } else if (plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pusty) &&
-                plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny)) {
+                plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny) &&
+                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) <= 63 &&
+                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) >= 0) {
             out.add(indeksPolaZktoregoRuszam + 14);
         }
 
         return out;
     }
 
-    public List<Ruch> zwrocDozwolonePolaDoBiciaiRuchu(int indeksPolaZktoregoRuszam) {
+    public List<Ruch> zwrocDozwolonePolaDoBiciaiRuchu() {
+
         List<Ruch> out = new ArrayList<>();
 
-        List<Integer> ruchy = dajDozwolonePola(indeksPolaZktoregoRuszam);
-        List<Integer> bicia = dajPolaDoBiciaPionkow(indeksPolaZktoregoRuszam);
+        List<Integer> ruchy = dajDozwolonePola();
+        List<Integer> bicia = dajPolaDoBiciaPionkow();
+
         for (Integer r : ruchy) {
             out.add(new Ruch(indeksPolaZktoregoRuszam, r, Ruch.TypRuchu.ruch));
         }

@@ -42,12 +42,12 @@ public class StartApp {
     }
 
     public static void ruch(Plansza plansza){
-        RuchGracza ruchGracza=new RuchGracza(plansza,ZawartoscPola.iks);
         int start = 11;
-        Boolean wynik=ruchGracza.poprawnePoleDoRuchu(start);
+        RuchGracza ruchGracza=new RuchGracza(plansza,ZawartoscPola.iks,start);
+        Boolean wynik=ruchGracza.poprawnePoleDoRuchu();
 
         //pytac az poda wlasciwe
-        List<Ruch> ruchy = ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu(start);
+        List<Ruch> ruchy = ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu();
         //podaje numer indeksu na ktory sie przesuwam i az poda tylko z tych dostepnych
         int stop=18;
 
