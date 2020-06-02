@@ -7,6 +7,6 @@ public class Pole {
     public Pole(int number, KolorPola color){
         this.number=number;
         this.color=color;
-        this.fieldContent=ZawartoscPola.pusty;
+        this.fieldContent=ZawartoscPola.pus;
     }
 }

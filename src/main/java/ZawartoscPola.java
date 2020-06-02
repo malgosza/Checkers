@@ -1,5 +1,5 @@
 public enum ZawartoscPola {
-    pusty,
+    pus,
     iks,
-    kolko;
+    kol;
 }

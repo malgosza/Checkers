@@ -5,19 +5,17 @@ public class RuchGracza {
 
     private Plansza plansza;
     private ZawartoscPola typGracza;
-    private int indeksPolaZktoregoRuszam;
 
-    public RuchGracza(Plansza plansza, ZawartoscPola typGracza, int indeksPolaZktoregoRuszam) {
+    public RuchGracza(Plansza plansza, ZawartoscPola typGracza) {
         this.plansza = plansza;
         this.typGracza = typGracza;
-        this.indeksPolaZktoregoRuszam = indeksPolaZktoregoRuszam;
     }
 
     private ZawartoscPola dajPrzeciwnika() {
-        return typGracza == ZawartoscPola.iks ? ZawartoscPola.kolko : ZawartoscPola.iks;
+        return typGracza == ZawartoscPola.iks ? ZawartoscPola.kol : ZawartoscPola.iks;
     }
 
-    public List<Integer> dajDozwolonePola() {
+    public List<Integer> dajDozwolonePola(int indeksPolaZktoregoRuszam) {
 
         List<Integer> list = new ArrayList<>();
 
@@ -38,17 +36,11 @@ public class RuchGracza {
             list.remove(indeksyDoUsuniecia);
         }
 
-        System.out.println("Pola po ktorych mozesz sie poruszac: ");
-        for (Integer indeksyDoRuchu : list) {
-            System.out.print(indeksyDoRuchu + " ");
-        }
-        System.out.println();
-
         return list;
     }
 
     private boolean czyZajety(List<Integer> list, int i) {
-        return !plansza.getZawartoscPola(list.get(i)).equals(ZawartoscPola.pusty);
+        return !plansza.getZawartoscPola(list.get(i)).equals(ZawartoscPola.pus);
     }
 
     private boolean czyBialy(List<Integer> list, int i) {
@@ -59,40 +51,40 @@ public class RuchGracza {
         return list.get(i) < 0 || list.get(i) > 63;
     }
 
-    public boolean poprawnePoleDoRuchu() {
+    public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
         return plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
-                !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pusty) &&
-                !zwrocDozwolonePolaDoBiciaiRuchu().isEmpty();
+                !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pus) &&
+                !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty();
     }
 
-    public List<Integer> dajPolaDoBiciaPionkow() {
+    public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
         List<Integer> out = new ArrayList<>();
         ZawartoscPola przeciwnik = dajPrzeciwnika();
         if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(przeciwnik) &&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pusty) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pus) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny) &&
                 plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) <= 63 &&
                 plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) >= 0) {
             out.add(indeksPolaZktoregoRuszam + 18);
         } else if (plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(przeciwnik) &&
-                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pusty) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pus) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny) &&
-                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) <= 63 &&
-                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) >= 0) {
+                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) <= 63
+                && plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) >= 0) {
             out.add(indeksPolaZktoregoRuszam + 14);
         }
 
         return out;
     }
 
-    public List<Ruch> zwrocDozwolonePolaDoBiciaiRuchu() {
+    public List<Ruch> zwrocDozwolonePolaDoBiciaiRuchu(int indeksPolaZktoregoRuszam) {
 
         List<Ruch> out = new ArrayList<>();
 
-        List<Integer> ruchy = dajDozwolonePola();
-        List<Integer> bicia = dajPolaDoBiciaPionkow();
+        List<Integer> ruchy = dajDozwolonePola(indeksPolaZktoregoRuszam);
+        List<Integer> bicia = dajPolaDoBiciaPionkow(indeksPolaZktoregoRuszam);
 
         for (Integer r : ruchy) {
             out.add(new Ruch(indeksPolaZktoregoRuszam, r, Ruch.TypRuchu.ruch));

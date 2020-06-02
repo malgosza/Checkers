@@ -47,7 +47,7 @@ public class Plansza {
         }
 
         for (int i = 40; i < 64; i++) {
-            setZawartoscPola(i,ZawartoscPola.kolko);
+            setZawartoscPola(i,ZawartoscPola.kol);
         }
     }
 }
