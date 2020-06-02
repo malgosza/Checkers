@@ -9,6 +9,10 @@ public class Ruch {
         this.typRuchu = typRuchu;
     }
 
+    public int getStop() {
+        return stop;
+    }
+
     public enum TypRuchu{
         bicie,
         ruch;

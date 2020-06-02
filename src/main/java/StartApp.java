@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,21 +22,33 @@ public class StartApp {
 
     public static void ruch(Plansza plansza){
 
-        int indeksPolaZktoregoRuszam;
+        int startIndeks;
+        int stopIndeks;
         RuchGracza ruchGracza=new RuchGracza(plansza,ZawartoscPola.iks);
 
+        Scanner scan = new Scanner(System.in);
+
         do{
-            Scanner scan = new Scanner(System.in);
             System.out.println("Poprawny numer pola którym chcesz sie poruszyc?");
-            indeksPolaZktoregoRuszam = Integer.parseInt(scan.nextLine());
-        }while (!ruchGracza.poprawnePoleDoRuchu(indeksPolaZktoregoRuszam));
+            startIndeks = Integer.parseInt(scan.nextLine());
+        }while (!ruchGracza.poprawnePoleDoRuchu(startIndeks));
 
-        List<Ruch> out =ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam);
+        List<Ruch> out =ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu(startIndeks);
 
+        List<Integer> listaStopow = new ArrayList<>();
+        for(Ruch r: out) {
+            listaStopow.add(r.getStop());
+        }
+
+        System.out.println("Pola do ruchu: ");
         for (Ruch r: out){
             System.out.println(r.stop + " "+ r.typRuchu);
         }
 
-    }
+        do {
+            System.out.println("Poprawny numer pola na które chcesz sie przesunac?");
+            stopIndeks = Integer.parseInt(scan.nextLine());
+        }while(!listaStopow.contains(stopIndeks));
 
+    }
 }

@@ -60,19 +60,20 @@ public class RuchGracza {
     public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
         List<Integer> out = new ArrayList<>();
         ZawartoscPola przeciwnik = dajPrzeciwnika();
-        if (plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
+        if (indeksPolaZktoregoRuszam + 18 <= 63 &&
+                indeksPolaZktoregoRuszam + 18 >= 0 &&
+                plansza.getColor(indeksPolaZktoregoRuszam + 9).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 9).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pus) &&
-                plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny) &&
-                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) <= 63 &&
-                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 18) >= 0) {
+                plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 18);
-        } else if (plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
+            
+        } else if (indeksPolaZktoregoRuszam + 14 <= 63 &&
+                indeksPolaZktoregoRuszam + 14 >= 0 &&
+                plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 7).equals(przeciwnik) &&
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pus) &&
-                plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny) &&
-                plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) <= 63
-                && plansza.getIndexPlansza(indeksPolaZktoregoRuszam + 14) >= 0) {
+                plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 14);
         }
 
