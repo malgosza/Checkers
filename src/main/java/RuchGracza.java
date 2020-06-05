@@ -11,7 +11,8 @@ public class RuchGracza {
         this.typGracza = typGracza;
     }
 
-    private ZawartoscPola dajPrzeciwnika() {
+    //zmienilam z private na public
+    public ZawartoscPola dajPrzeciwnika() {
         return typGracza == ZawartoscPola.iks ? ZawartoscPola.kol : ZawartoscPola.iks;
     }
 
@@ -52,7 +53,8 @@ public class RuchGracza {
     }
 
     public boolean poprawnePoleDoRuchu(int indeksPolaZktoregoRuszam) {
-        return plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
+        return indeksPolaZktoregoRuszam >= 0 && indeksPolaZktoregoRuszam < 64 &&
+                plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
                 !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pus) &&
                 !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty();
     }
@@ -67,7 +69,7 @@ public class RuchGracza {
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pus) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 18);
-            
+
         } else if (indeksPolaZktoregoRuszam + 14 <= 63 &&
                 indeksPolaZktoregoRuszam + 14 >= 0 &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&

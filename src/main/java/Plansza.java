@@ -43,11 +43,15 @@ public class Plansza {
 
     public void ustawianieZawartosciPlanszy(){
         for (int i = 0; i < 24; i++) {
-            setZawartoscPola(i,ZawartoscPola.iks);
+            if(getColor(i).equals(KolorPola.czarny)){
+                setZawartoscPola(i,ZawartoscPola.iks);
+            }
         }
 
         for (int i = 40; i < 64; i++) {
-            setZawartoscPola(i,ZawartoscPola.kol);
+            if(getColor(i).equals(KolorPola.czarny)) {
+                setZawartoscPola(i, ZawartoscPola.kol);
+            }
         }
     }
 }
