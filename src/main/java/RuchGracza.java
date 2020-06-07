@@ -69,7 +69,13 @@ public class RuchGracza {
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 18).equals(ZawartoscPola.pus) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 18).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 18);
-
+        } else if (indeksPolaZktoregoRuszam - 18 <= 63 &&
+                indeksPolaZktoregoRuszam - 18 >= 0 &&
+                plansza.getColor(indeksPolaZktoregoRuszam - 9).equals(KolorPola.czarny) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam - 9).equals(przeciwnik) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam - 18).equals(ZawartoscPola.pus) &&
+                plansza.getColor(indeksPolaZktoregoRuszam - 18).equals(KolorPola.czarny)) {
+            out.add(indeksPolaZktoregoRuszam - 18);
         } else if (indeksPolaZktoregoRuszam + 14 <= 63 &&
                 indeksPolaZktoregoRuszam + 14 >= 0 &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 7).equals(KolorPola.czarny) &&
@@ -77,6 +83,13 @@ public class RuchGracza {
                 plansza.getZawartoscPola(indeksPolaZktoregoRuszam + 14).equals(ZawartoscPola.pus) &&
                 plansza.getColor(indeksPolaZktoregoRuszam + 14).equals(KolorPola.czarny)) {
             out.add(indeksPolaZktoregoRuszam + 14);
+        } else if (indeksPolaZktoregoRuszam - 14 <= 63 &&
+                indeksPolaZktoregoRuszam - 14 >= 0 &&
+                plansza.getColor(indeksPolaZktoregoRuszam - 7).equals(KolorPola.czarny) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam - 7).equals(przeciwnik) &&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam - 14).equals(ZawartoscPola.pus) &&
+                plansza.getColor(indeksPolaZktoregoRuszam - 14).equals(KolorPola.czarny)) {
+            out.add(indeksPolaZktoregoRuszam - 14);
         }
 
         return out;
