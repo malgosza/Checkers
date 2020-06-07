@@ -11,7 +11,7 @@ public class StartApp {
         displayPlansza(plansza);
 
         ZawartoscPola typGraczaX = ZawartoscPola.iks;
-        int iloscFigurPrzeciwnika = iloscFigurNaPlanszy(plansza, typGraczaX);
+        int iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, typGraczaX);
 
         System.out.println("Zaczynaja iksy");
 
@@ -20,7 +20,7 @@ public class StartApp {
 
         ZawartoscPola graczAktualny = gracz.dajPrzeciwnika();//kolko
         displayPlansza(plansza);
-        iloscFigurPrzeciwnika = iloscFigurNaPlanszy(plansza, graczAktualny);
+        iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, graczAktualny);
         System.out.println(graczAktualny +" "+ iloscFigurPrzeciwnika);
 
         while (iloscFigurPrzeciwnika > 0) {
@@ -33,7 +33,7 @@ public class StartApp {
 
             graczAktualny = graczAktualny.equals(ZawartoscPola.kol) ? ZawartoscPola.iks : ZawartoscPola.kol;
 
-            iloscFigurPrzeciwnika = iloscFigurNaPlanszy(plansza, graczAktualny);
+            iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, graczAktualny);
             System.out.println(graczAktualny + " " + " " + iloscFigurPrzeciwnika);
         }
 
@@ -89,7 +89,7 @@ public class StartApp {
         }
     }
 
-    public static int iloscFigurNaPlanszy(Plansza plansza, ZawartoscPola pionek) {
+    public static int zliczaczIloscFigurNaPlanszy(Plansza plansza, ZawartoscPola pionek) {
 
         int iloscFigur = 0;
 
