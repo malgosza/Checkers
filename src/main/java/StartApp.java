@@ -10,24 +10,23 @@ public class StartApp {
         plansza.ustawianieZawartosciPlanszy();
         displayPlansza(plansza);
 
-        int iloscFigurPrzeciwnika = 12;
         ZawartoscPola typGraczaX = ZawartoscPola.iks;
+        int iloscFigurPrzeciwnika = iloscFigurNaPlanszy(plansza, typGraczaX);
 
         System.out.println("Zaczynaja iksy");
 
         ruch(plansza, typGraczaX);
         RuchGracza gracz = new RuchGracza(plansza, typGraczaX);
+
         ZawartoscPola graczAktualny = gracz.dajPrzeciwnika();//kolko
         displayPlansza(plansza);
         iloscFigurPrzeciwnika = iloscFigurNaPlanszy(plansza, graczAktualny);
-        System.out.println(iloscFigurPrzeciwnika);
+        System.out.println(graczAktualny +" "+ iloscFigurPrzeciwnika);
 
         while (iloscFigurPrzeciwnika > 0) {
 
             System.out.println();
             System.out.println("Teraz ruch: " + graczAktualny);
-//sprzwdic zeby ktos sie poruszal tymi ktore maja zawartosc gracz
-//            iloscFigurPrzeciwnika = graczAktualny.equals(ZawartoscPola.kol) ? iloscFigurX : iloscFigurO;
 
             ruch(plansza, graczAktualny);
             displayPlansza(plansza);
@@ -38,6 +37,7 @@ public class StartApp {
             System.out.println(graczAktualny + " " + " " + iloscFigurPrzeciwnika);
         }
 
+        graczAktualny=graczAktualny.equals(ZawartoscPola.kol) ? ZawartoscPola.iks : ZawartoscPola.kol;
         System.out.println("Wygrał: "+ graczAktualny);
     }
 

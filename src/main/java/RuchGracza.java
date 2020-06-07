@@ -56,7 +56,8 @@ public class RuchGracza {
         return indeksPolaZktoregoRuszam >= 0 && indeksPolaZktoregoRuszam < 64 &&
                 plansza.getColor(indeksPolaZktoregoRuszam).equals(KolorPola.czarny) &&
                 !plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(ZawartoscPola.pus) &&
-                !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty();
+                !zwrocDozwolonePolaDoBiciaiRuchu(indeksPolaZktoregoRuszam).isEmpty()&&
+                plansza.getZawartoscPola(indeksPolaZktoregoRuszam).equals(typGracza);
     }
 
     public List<Integer> dajPolaDoBiciaPionkow(int indeksPolaZktoregoRuszam) {
