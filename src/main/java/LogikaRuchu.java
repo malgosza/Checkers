@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuchGracza {
+public class LogikaRuchu {
 
     private Plansza plansza;
     private ZawartoscPola typGracza;
 
-    public RuchGracza(Plansza plansza, ZawartoscPola typGracza) {
+    public LogikaRuchu(Plansza plansza, ZawartoscPola typGracza) {
         this.plansza = plansza;
         this.typGracza = typGracza;
     }
@@ -111,5 +111,13 @@ public class RuchGracza {
         }
 
         return out;
+    }
+
+    public void zaaplikujRuchLubBicie(Ruch ruch) {
+        plansza.setZawartoscPola(ruch.stop, typGracza);
+        plansza.setZawartoscPola(ruch.start, ZawartoscPola.pus);
+        if (ruch.typRuchu == Ruch.TypRuchu.bicie) {
+            plansza.setZawartoscPola((ruch.stop + ruch.start) / 2, ZawartoscPola.pus);
+        }
     }
 }

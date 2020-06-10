@@ -54,4 +54,17 @@ public class Plansza {
             }
         }
     }
+
+    public int policzFigury(ZawartoscPola pionek) {
+
+        int iloscFigur = 0;
+
+        for (int i = 0; i < getPlansza().size(); i++) {
+            if (getZawartoscPola(i).equals(pionek)) {
+                iloscFigur += 1;
+            }
+        }
+
+        return iloscFigur;
+    }
 }

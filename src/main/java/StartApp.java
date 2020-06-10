@@ -2,44 +2,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static java.lang.Math.abs;
-
 public class StartApp {
     public static void main(String[] args) {
         Plansza plansza = new Plansza();
         plansza.ustawianieZawartosciPlanszy();
-        displayPlansza(plansza);
 
-        ZawartoscPola typGraczaX = ZawartoscPola.iks;
-        int iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, typGraczaX);
-
-        System.out.println("Zaczynaja iksy");
-
-        ruch(plansza, typGraczaX);
-        RuchGracza gracz = new RuchGracza(plansza, typGraczaX);
-
-        ZawartoscPola graczAktualny = gracz.dajPrzeciwnika();//kolko
-        displayPlansza(plansza);
-        iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, graczAktualny);
-        System.out.println(graczAktualny +" "+ iloscFigurPrzeciwnika);
-
-        while (iloscFigurPrzeciwnika > 0) {
-
-            System.out.println();
-            System.out.println("Teraz ruch: " + graczAktualny);
-
-            ruch(plansza, graczAktualny);
+        ZawartoscPola aktualnyGracz = ZawartoscPola.iks;
+        int ileFigur = 0;
+        do{
             displayPlansza(plansza);
+            LogikaRuchu logikaRuchu = new LogikaRuchu(plansza, aktualnyGracz);
 
-            graczAktualny = graczAktualny.equals(ZawartoscPola.kol) ? ZawartoscPola.iks : ZawartoscPola.kol;
+            Ruch ruch = poprosGraczaOIndeksy(logikaRuchu);
+            logikaRuchu.zaaplikujRuchLubBicie(ruch);
 
-            iloscFigurPrzeciwnika = zliczaczIloscFigurNaPlanszy(plansza, graczAktualny);
-            System.out.println(graczAktualny + " " + " " + iloscFigurPrzeciwnika);
-        }
+            aktualnyGracz = logikaRuchu.dajPrzeciwnika();
+            ileFigur = plansza.policzFigury(aktualnyGracz);
+        }while(ileFigur > 0);
 
-        graczAktualny=graczAktualny.equals(ZawartoscPola.kol) ? ZawartoscPola.iks : ZawartoscPola.kol;
-        System.out.println("Wygrał: "+ graczAktualny);
+        System.out.println("Przegral ziomek: " + aktualnyGracz);
     }
+
 
     public static void displayPlansza(Plansza plansza) {
         for (int i = 0; i < plansza.getPlansza().size(); i++) {
@@ -51,28 +34,27 @@ public class StartApp {
         System.out.println();
     }
 
-    public static void ruch(Plansza plansza, ZawartoscPola pionek) {
+    public static Ruch poprosGraczaOIndeksy(LogikaRuchu logikaRuchu) {
 
         int startIndeks;
         int stopIndeks;
-        RuchGracza ruchGracza = new RuchGracza(plansza, pionek);
 
         Scanner scan = new Scanner(System.in);
 
         do {
             System.out.println("Poprawny numer pola którym chcesz sie poruszyc?");
             startIndeks = Integer.parseInt(scan.nextLine());
-        } while (!ruchGracza.poprawnePoleDoRuchu(startIndeks));
+        } while (!logikaRuchu.poprawnePoleDoRuchu(startIndeks));
 
-        List<Ruch> out = ruchGracza.zwrocDozwolonePolaDoBiciaiRuchu(startIndeks);
+        List<Ruch> potencjalneRuchy = logikaRuchu.zwrocDozwolonePolaDoBiciaiRuchu(startIndeks);
 
         List<Integer> listaStopow = new ArrayList<>();
-        for (Ruch r : out) {
+        for (Ruch r : potencjalneRuchy) {
             listaStopow.add(r.getStop());
         }
 
         System.out.println("Pola do ruchu: ");
-        for (Ruch r : out) {
+        for (Ruch r : potencjalneRuchy) {
             System.out.println(r.stop + " " + r.typRuchu);
         }
 
@@ -81,24 +63,15 @@ public class StartApp {
             stopIndeks = Integer.parseInt(scan.nextLine());
         } while (!listaStopow.contains(stopIndeks));
 
-        plansza.setZawartoscPola(stopIndeks, pionek);
-        plansza.setZawartoscPola(startIndeks, ZawartoscPola.pus);
-
-        if (abs(stopIndeks - startIndeks) == 14 || abs(stopIndeks - startIndeks) == 18) {
-            plansza.setZawartoscPola((stopIndeks + startIndeks) / 2, ZawartoscPola.pus);
-        }
+        return dajWykonanyRuch(potencjalneRuchy, startIndeks, stopIndeks);
     }
 
-    public static int zliczaczIloscFigurNaPlanszy(Plansza plansza, ZawartoscPola pionek) {
-
-        int iloscFigur = 0;
-
-        for (int i = 0; i < plansza.getPlansza().size(); i++) {
-            if (plansza.getZawartoscPola(i).equals(pionek)) {
-                iloscFigur += 1;
+    private static Ruch dajWykonanyRuch(List<Ruch> potencjalneRuchy, int startIndeks, int stopIndeks) {
+        for (Ruch r: potencjalneRuchy) {
+            if(r.stop == stopIndeks && r.start == startIndeks) {
+                return r;
             }
         }
-
-        return iloscFigur;
+        return null;
     }
 }
